@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitor Cardíaco MQTT</title>
+    <!-- Carga de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="min-h-screen p-4 flex items-center justify-center">
+
+    <div class="w-full max-w-lg">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800">Monitor de Salud en Tiempo Real</h1>
+            <p class="text-gray-500 mt-1">Conexión a Servidor MQTT (HiveMQ)</p>
+        </header>
+
+        <!-- Panel de Estado de Conexión -->
+        <div class="bg-white p-4 rounded-xl mb-6 shadow-md">
+            <h2 class="text-lg font-semibold text-gray-700 flex items-center mb-2">
+                Estado de Conexión:
+            </h2>
+            <div id="status-display" class="p-2 text-sm font-medium rounded-lg bg-red-100 text-red-700 text-center">
+                Desconectado
+            </div>
+        </div>
+
+        <!-- Dashboard de Datos Vitales -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+
+            <!-- Tarjeta de Oxigenación -->
+            <div class="data-card bg-white p-6 rounded-xl border-l-4 border-green-500">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800">Oxigenación (SpO₂)</h3>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM6.5 7a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM13.5 15a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM10 12a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+                <div class="text-5xl font-extrabold text-green-600">
+                    <span id="oxygen-value">--</span><span class="text-2xl font-medium ml-1">%</span>
+                </div>
+                <p class="text-sm text-gray-400 mt-2">Tópico: health/monitor/oxygen</p>
+            </div>
+
+            <!-- Tarjeta de Pulsaciones -->
+            <div class="data-card bg-white p-6 rounded-xl border-l-4 border-red-500">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800">Pulsaciones (BPM)</h3>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-red-500" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+                <div class="text-5xl font-extrabold text-red-600">
+                    <span id="pulse-value">--</span><span class="text-2xl font-medium ml-1">BPM</span>
+                </div>
+                <p class="text-sm text-gray-400 mt-2">Tópico: health/monitor/pulse</p>
+            </div>
+
+        </div>
+
+        <!-- Botones de Acción -->
+        <div class="mt-8 flex justify-center space-x-4">
+            <button id="connect-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full transition duration-300 transform hover:scale-105 shadow-lg">
+                Conectar a MQTT
+            </button>
+            <button id="disconnect-btn" class="bg-gray-400 hover:bg-gray-500 text-white font-bold py-3 px-6 rounded-full transition duration-300 transform hover:scale-105 shadow-lg" disabled>
+                Desconectar
+            </button>
+        </div>
+
+    </div>
+
+    <!-- Librerías y scripts -->
+    <script type="module" src="firebase.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"></script>
+    <script src="mqtt.js"></script>
+</body>
+</html>
